@@ -11,12 +11,33 @@ Tworzenie wszystkich tabel można znaleźć tym [pliku](butique_database_boot.sq
 
 ## Implementacja zapytań SQL
 1. Zalogowanie kasjera
+
+SELECT  `ID`,  `login`,  `hash` FROM `butique`.`pracownik` WHERE `login` = 'abogucki'
+
 2. Otworzenie zmiany
+
+INSERT INTO `butique`.`zmiana` (`pracownik_ID`, `sklep_ID`, `start_time`, `CT`, `UT`) VALUES ('1', '1', NOW(), NULL,null);
+
 3. Zakończenie zmiany
+
+INSERT INTO `butique`.`zmiana` (`pracownik_ID`, `sklep_ID`, `end_time`, `CT`, `UT`) VALUES ('1', '1', NOW(), NULL,null);
+
 4. Sprawdzenie dostępności danego produktu w kolorze 'a' i rozmiarze 'b' wraz z wyswietleniem dostawcy
+
+SELECT * FROM butique.dostepnosc a LEFT JOIN (SELECT a.`ID` AS produkt_ID, a.nazwa AS produkt_nazwa , b.nazwa AS dostawca_nazwa, b.adres, b.mail, b.telefon  FROM butique.produkt a LEFT JOIN `butique`.`dostawca` b ON a.dostawca_ID = b.NIP) b ON a.produkt_ID = b.produkt_ID WHERE kolor = 'CZARNY' AND rozmiar = "L" 
+
 5. Sprawdzenie dostawcy produktu o nazwie 'a'
-6. Sprawdzenie 5 najtanszych produktow z kategorii 'a' dostepnych na sklepie na ktorym znajduje sie kasjer
+
+SELECT a.`ID` AS produkt_ID, a.nazwa AS produkt_nazwa , b.nazwa AS dostawca_nazwa, b.adres, b.mail, b.telefon  FROM butique.produkt a LEFT JOIN `butique`.`dostawca` b ON a.dostawca_ID = b.NIP WHERE a.nazwa = 'Ubrellati'
+
+6. Sprawdzenie 5 najtanszych produktow z kategorii 'a' dostepnych na sklepie
+
+SELECT a.sklep_ID, a.sztuk, b.produkt_nazwa, b.kategoria_nazwa, b.produkt_cena FROM butique.dostepnosc a LEFT JOIN (SELECT b.nazwa AS produkt_nazwa, b.ID AS produkt_id, b.cena AS produkt_cena ,a.nazwa AS kategoria_nazwa FROM butique.kategoria a INNER JOIN butique.produkt b ON a.ID = b.kategoria_ID WHERE 1 ORDER BY b.cena DESC) b ON a.produkt_ID = b.produkt_id WHERE kategoria_nazwa = "SPODNIE" AND a.sklep_ID = 2
+
 7. Otworzenie paragonu i sprzedaz produktu, z odjęciem go na stanie
+
+
+
 8. Sprawdzenie kategorii prodoktow sprowadzanych przez dostawce
 9. Dodanie produktu na stan sklepu do ktorego przypisany jest kasjer
 10. Sprawdzenie najdrozszego paragonu ze zmiany
