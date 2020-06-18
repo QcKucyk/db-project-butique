@@ -36,6 +36,9 @@ SELECT a.sklep_ID, a.sztuk, b.produkt_nazwa, b.kategoria_nazwa, b.produkt_cena F
 
 7. Otworzenie paragonu i sprzedaz produktu, z odjęciem go na stanie
 
+START TRANSACTION
+INSERT INTO butique.sprzedaz(zmiana_ID, CT, UT) VALUES(1, NULL,NULL)
+INSERT INTO butique.lista_s_p()
 
 
 8. Sprawdzenie kategorii prodoktow sprowadzanych przez dostawce
